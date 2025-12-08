@@ -12,15 +12,18 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const [isRegister, setIsRegister] = useState(false)
   const [authenticating, setAuthenticating] = useState(false)
+  const [error, setError] = useState('')
 
   const { signup, login } = useAuth()
 
   async function handleSubmit(params) {
     if(!email || !password || password.length < 6){
+      setError('Please enter a valid email and password (minimum 6 characters)')
       return
     }
 
     setAuthenticating(true)
+    setError('')
     try {
       if(isRegister){
         console.log("Signing Up a Nwe User")
@@ -31,7 +34,23 @@ const Login = () => {
         await login(email, password)
       }
     } catch (error) {
-        console.log(err.message)
+        console.log(error.message)
+        // Handle different Firebase auth errors
+        if (error.code === 'auth/user-not-found') {
+          setError('No user found with this email address')
+        } else if (error.code === 'auth/wrong-password') {
+          setError('Incorrect password. Please try again')
+        } else if (error.code === 'auth/invalid-email') {
+          setError('Invalid email address')
+        } else if (error.code === 'auth/email-already-in-use') {
+          setError('This email is already registered')
+        } else if (error.code === 'auth/weak-password') {
+          setError('Password should be at least 6 characters')
+        } else if (error.code === 'auth/invalid-credential') {
+          setError('Invalid email or password. Please check your credentials')
+        } else {
+          setError('Authentication failed. Please try again')
+        }
     } finally {
       setAuthenticating(false)
     }
@@ -49,7 +68,10 @@ const Login = () => {
       <input value={password} onChange={(e) => {
         setPassword(e.target.value)
       }} className='hover:border-indigo-600 focus:border-indigo-600 w-full max-w-[400px] mx-auto px-3 py-2 sm:py-3 border border-solid border-indigo-400 rounded-full outline-none' 
-        placeholder='Password...'/>
+        placeholder='Password...' type='password'/>
+      {error && (
+        <p className='text-red-500 text-center max-w-[400px] w-full mx-auto'>{error}</p>
+      )}
       <div className='max-w-[400px] w-full mx-auto'>
           <Button text={authenticating ? 'Submitting' : 'Submit'} full clickHandler={handleSubmit} />
       </div>

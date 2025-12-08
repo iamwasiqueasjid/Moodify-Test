@@ -1,33 +1,144 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Moodify - Mood Tracking Application
 
-## Getting Started
+A Next.js-based mood tracking application with Firebase authentication and CI/CD pipeline using Jenkins.
 
-First, run the development server:
+## 🚀 Features
 
+- User authentication (Login/Signup)
+- Daily mood tracking
+- Mood calendar visualization
+- Firebase Firestore integration
+- Responsive design
+- Automated testing with Selenium
+- CI/CD pipeline with Jenkins
+
+## 🛠 Tech Stack
+
+- **Frontend**: Next.js, React, TailwindCSS
+- **Backend**: Firebase (Authentication + Firestore)
+- **Testing**: Selenium, Python, Pytest
+- **CI/CD**: Jenkins on AWS EC2
+- **Containerization**: Docker
+
+## 📋 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+- Firebase account
+- (Optional) Docker for testing
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/iamwasiqueasjid/Moodify-Test.git
+cd Moodify-Test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+3. Configure Firebase:
+   - Create a Firebase project
+   - Add your Firebase config to `firebase.js`
+   - Set up Firestore database
+   - Enable Authentication (Email/Password)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+4. Run the development server:
+```bash
+npm run dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-To learn more about Next.js, take a look at the following resources:
+## 🧪 Testing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Run Selenium Tests Locally
+```bash
+cd selenium-tests
+pip install -r requirements.txt
+python run_all_tests.py
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Run Tests in Docker
+```bash
+docker build -t moodify-selenium-tests .
+docker run --rm -v $(pwd)/selenium-tests/screenshots:/app/screenshots moodify-selenium-tests
+```
+
+See `selenium-tests/README.md` for detailed testing information.
+
+## 🔄 CI/CD Pipeline
+
+This project uses Jenkins for automated testing:
+
+- **Trigger**: Automatic on GitHub push via webhook
+- **Build**: Docker container with test environment
+- **Test**: Selenium test suite execution
+- **Notify**: Email with test results and screenshots
+- **Artifacts**: Screenshots archived in Jenkins
+
+### Jenkins Setup
+See `SETUP_INSTRUCTIONS.md` for complete Jenkins setup guide.
+
+**Jenkins URL**: http://ec2-13-61-144-94.eu-north-1.compute.amazonaws.com:8080
+
+### Quick Deploy
+```powershell
+.\deploy.ps1
+```
+
+## 📁 Project Structure
+
+```
+Moodify/
+├── app/                    # Next.js app directory
+├── components/             # React components
+├── context/               # React context (Auth)
+├── utils/                 # Utility functions
+├── selenium-tests/        # Automated test suite
+├── Dockerfile            # Docker configuration for tests
+├── Jenkinsfile           # Jenkins pipeline definition
+├── firebase.js           # Firebase configuration
+└── README.md             # This file
+```
+
+## 📚 Documentation
+
+- `SETUP_INSTRUCTIONS.md` - Complete Jenkins CI/CD setup guide
+- `QUICK_REFERENCE.md` - Quick command reference
+- `JENKINS_SETUP.md` - Jenkins pipeline documentation
+- `selenium-tests/README.md` - Testing documentation
+
+## 🤝 Contributing
+
+This is an academic project. For collaboration:
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+## 📧 Contact
+
+For questions or issues:
+- GitHub: [@iamwasiqueasjid](https://github.com/iamwasiqueasjid)
+- Repository: [Moodify-Test](https://github.com/iamwasiqueasjid/Moodify-Test)
+
+## 📄 License
+
+This project is part of an academic assignment.
+
+---
+
+## Next.js Resources
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Learn Next.js](https://nextjs.org/learn)
+- [Next.js GitHub](https://github.com/vercel/next.js/)
 
 ## Deploy on Vercel
 

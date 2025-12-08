@@ -82,13 +82,25 @@ This project uses Jenkins for automated testing:
 - **Artifacts**: Screenshots archived in Jenkins
 
 ### Jenkins Setup
-See `SETUP_INSTRUCTIONS.md` for complete Jenkins setup guide.
+See `JENKINS_SETUP_GUIDE.md` for complete Jenkins setup guide.  
+See `QUICK_REFERENCE.md` for quick commands and credentials.
 
-**Jenkins URL**: http://ec2-13-61-144-94.eu-north-1.compute.amazonaws.com:8080
+**Jenkins URL**: http://ec2-13-62-230-213.eu-north-1.compute.amazonaws.com:8080
+
+### Pipeline Features
+- ✅ Automated builds on GitHub push via webhook
+- ✅ Dockerized test execution
+- ✅ Email notifications to collaborator who pushed
+- ✅ Screenshot artifacts
+- ✅ HTML test reports
 
 ### Quick Deploy
 ```powershell
-.\deploy.ps1
+# Connect tEC2
+ssh -i "C:\Users\Work\Downloads\Moodify.pem" ubuntu@ec2-13-62-230-213.eu-north-1.compute.amazonaws.com
+
+# View Jenkins password
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
 ## 📁 Project Structure

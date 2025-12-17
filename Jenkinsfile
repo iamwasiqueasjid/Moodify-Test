@@ -49,8 +49,9 @@ NEXT_PUBLIC_APP_ID=${env.NEXT_PUBLIC_APP_ID}
         stage('Clean Workspace') {
             steps {
                 echo 'Cleaning old test artifacts...'
+                // Cleaning up using Docker to avoid permission issues
                 sh '''
-                    rm -rf SeleniumTests/target || true
+                    docker run --rm -v "${PWD}/SeleniumTests:/app" -w /app alpine rm -rf target || true
                 '''
             }
         }
@@ -107,7 +108,7 @@ NEXT_PUBLIC_APP_ID=${env.NEXT_PUBLIC_APP_ID}
                     archiveArtifacts allowEmptyArchive: true, artifacts: 'SeleniumTests/target/surefire-reports/**/*'
                     
                     sh '''
-                        rm -rf SeleniumTests/target || true
+                        docker run --rm -v "${PWD}/SeleniumTests:/app" -w /app alpine rm -rf target || true
                     '''
                 }
             }

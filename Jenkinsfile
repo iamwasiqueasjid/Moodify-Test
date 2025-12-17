@@ -1,19 +1,33 @@
 pipeline {
     agent any
     
+    options {
+        skipDefaultCheckout(true)  // Skip automatic checkout so we can clean first
+    }
+    
     environment {
         DEPLOY_PATH = '.'
         ADMIN_EMAIL = 'wasiquemahmood786@gmail.com'
     }
     
     stages {
+        stage('Clean Workspace') {
+            steps {
+                echo 'Cleaning old test artifacts before checkout...'
+                // Clean up using Docker to handle root-owned files from previous builds
+                sh '''
+                    docker run --rm -v "${PWD}/SeleniumTests:/app" -w /app alpine rm -rf target || true
+                '''
+            }
+        }
+        
         stage('Checkout') {
             steps {
                 echo 'Checking out code from GitHub...'
                 checkout scm
             }
         }
-
+        
         stage('Create Env File') {
              steps {
                  script {
@@ -43,16 +57,6 @@ NEXT_PUBLIC_APP_ID=${env.NEXT_PUBLIC_APP_ID}
                     ).trim()
                     echo "Commit by: ${env.GIT_COMMITTER_NAME} (${env.GIT_COMMITTER_EMAIL})"
                 }
-            }
-        }
-        
-        stage('Clean Workspace') {
-            steps {
-                echo 'Cleaning old test artifacts...'
-                // Cleaning up using Docker to avoid permission issues
-                sh '''
-                    docker run --rm -v "${PWD}/SeleniumTests:/app" -w /app alpine rm -rf target || true
-                '''
             }
         }
         

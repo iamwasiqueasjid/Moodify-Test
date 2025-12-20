@@ -1,6 +1,7 @@
 # Start from the official Node.js alpine image
 FROM node:18-alpine
 
+
 # Set the working directory
 WORKDIR /app
 
